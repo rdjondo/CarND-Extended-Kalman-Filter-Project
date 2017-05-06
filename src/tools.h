@@ -25,6 +25,11 @@ public:
   */
   Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd& x_state);
 
+  /**
+   *  Transforms cartesian state-space coordinates to polar coordinates
+   */
+  Eigen::VectorXd h_radar(Eigen::VectorXd& x_state);
+
 };
 
 #endif /* TOOLS_H_ */
