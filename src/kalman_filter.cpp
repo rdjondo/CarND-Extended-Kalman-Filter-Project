@@ -1,6 +1,7 @@
 #include "kalman_filter.h"
 #include "tools.h"
 #include "Eigen/Dense"
+#include <iostream>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -90,5 +91,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	x_ = x_ + (K * y);
 	unsigned int x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
-	P_ = (I - K * H_) * P_;
+	P_ = (I - K * DH) * P_;
 }

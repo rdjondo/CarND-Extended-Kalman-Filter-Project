@@ -81,7 +81,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	return Hj;
 }
 
-/* Transforms cartesian state-space coordinates to polar coordinates  */
+/* Transforms cartesian state-space coordinates to radar measurement polar coordinates  */
 VectorXd Tools::h_radar(VectorXd& x_state){
 	VectorXd z_pred =  VectorXd(3);
 

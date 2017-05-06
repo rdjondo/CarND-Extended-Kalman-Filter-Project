@@ -49,6 +49,7 @@ void check_files(ifstream& in_file, string& in_name,
   }
 }
 
+
 int main(int argc, char* argv[]) {
 
   check_arguments(argc, argv);
@@ -65,6 +66,11 @@ int main(int argc, char* argv[]) {
   vector<GroundTruthPackage> gt_pack_list;
 
   string line;
+
+  std::string argv_str(argv[0]);
+  std::string base = argv_str.substr(0, argv_str.find_last_of("/"));
+
+  cout<<"Get current directory : "<<base<<endl;
 
   // prep the measurement packages (each line represents a measurement at a
   // timestamp)
