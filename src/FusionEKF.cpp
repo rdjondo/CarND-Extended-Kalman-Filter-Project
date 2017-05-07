@@ -37,7 +37,6 @@ FusionEKF::FusionEKF() {
 	ekf_.P_ << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1000, 0, 0, 0, 0, 1000;
 
 	/**
-	 TODO:
 	 * Finish initializing the FusionEKF.
 	 * Set the process and measurement noises
 	 */
@@ -66,7 +65,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 ****************************************************************************/
 	if (!is_initialized_) {
 		/**
-		 TODO:
 		 * Initialize the state ekf_.x_ with the first measurement.
 		 * Create the covariance matrix.
 		 * Remember: you'll need to convert radar from polar to cartesian coordinates.
@@ -74,7 +72,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 		// first measurement
 		cout << "EKF: " << endl;
 		ekf_.x_ = VectorXd(4);
-		ekf_.x_ << 1, 1, 1, 1;
 
 		if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
 			/**
@@ -85,8 +82,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 			x_temp << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], measurement_pack.raw_measurements_[2];
 			ekf_.x_(0) = x_temp(0) * cosf(x_temp(1));
 			ekf_.x_(1) = x_temp(0) * sinf(x_temp(1));
-			ekf_.x_(2) = x_temp(3) * cosf(x_temp(1));
-			ekf_.x_(3) = x_temp(3) * sinf(x_temp(1));
+
+			// Rough approximation of the speed (that's better than 0)
+			ekf_.x_(2) = x_temp(2) * cosf(x_temp(1));
+			ekf_.x_(3) = x_temp(2) * sinf(x_temp(1));
+
 		} else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
 			/**
 			 Initialize state.
@@ -107,7 +107,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 ****************************************************************************/
 
 	/**
-	 TODO:
 	 * Update the state transition matrix F according to the new elapsed time.
 	 - Time is measured in seconds.
 	 * Update the process noise covariance matrix.
@@ -136,7 +135,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 ****************************************************************************/
 
 	/**
-	 TODO:
 	 * Use the sensor type to perform the update step.
 	 * Update the state and covariance matrices.
 	 */

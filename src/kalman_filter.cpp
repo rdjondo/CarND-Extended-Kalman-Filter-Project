@@ -73,6 +73,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	 */
 	VectorXd y = z - tool.h_radar(x_);
 
+	/* Normalize angle phi between -PI and PI */
+	float phi = y(1);
+	while (phi < -M_PI)  {
+		phi += 2.0 * M_PI;
+	}
+	phi = fmod(phi, M_PI);
+	y(1) = phi;
+
 	/* Linearise process measurement matrix */
 	MatrixXd DH = tool.CalculateJacobian(x_);
 

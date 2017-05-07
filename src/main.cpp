@@ -67,11 +67,6 @@ int main(int argc, char* argv[]) {
 
   string line;
 
-  std::string argv_str(argv[0]);
-  std::string base = argv_str.substr(0, argv_str.find_last_of("/"));
-
-  cout<<"Get current directory : "<<base<<endl;
-
   // prep the measurement packages (each line represents a measurement at a
   // timestamp)
   while (getline(in_file_, line)) {
@@ -153,12 +148,14 @@ int main(int argc, char* argv[]) {
     // output the measurements
     if (measurement_pack_list[k].sensor_type_ == MeasurementPackage::LASER) {
       // output the estimation
+      out_file_ << "L" << "\t";
       out_file_ << measurement_pack_list[k].raw_measurements_(0) << "\t";
       out_file_ << measurement_pack_list[k].raw_measurements_(1) << "\t";
     } else if (measurement_pack_list[k].sensor_type_ == MeasurementPackage::RADAR) {
       // output the estimation in the cartesian coordinates
       float ro = measurement_pack_list[k].raw_measurements_(0);
       float phi = measurement_pack_list[k].raw_measurements_(1);
+      out_file_ << "R" << "\t";
       out_file_ << ro * cos(phi) << "\t"; // p1_meas
       out_file_ << ro * sin(phi) << "\t"; // ps_meas
     }
@@ -175,6 +172,12 @@ int main(int argc, char* argv[]) {
 
   // compute the accuracy (RMSE)
   Tools tools;
+  cout<<"The project recently changed and there is now only one data set "<<endl<<
+		  "obj_pose-laser-radar-synthetic-input.txt. "<<endl<<
+		  "px, py, vx, vy output coordinates "
+		  "must have an RMSE <= [.11, .11, 0.52, 0.52] when using the file: "<<endl<<
+		  "obj_pose-laser-radar-synthetic-input.txt";
+
   cout << "Accuracy - RMSE:" << endl << tools.CalculateRMSE(estimations, ground_truth) << endl;
 
   // close files
